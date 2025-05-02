@@ -1,0 +1,36 @@
+﻿<Window x:Class="Hotel1.BookingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Бронирование номера" Height="500" Width="400">
+    <Grid Margin="20">
+        <StackPanel>
+            <Label Content="Имя"/>
+            <TextBox x:Name="NameBox"/>
+
+            <Label Content="Фамилия"/>
+            <TextBox x:Name="SurnameBox"/>
+
+            <Label Content="Отчество"/>
+            <TextBox x:Name="SnameBox"/>
+
+            <Label Content="Паспорт"/>
+            <TextBox x:Name="PassportBox"/>
+
+            <Label Content="Телефон"/>
+            <TextBox x:Name="PhoneBox"/>
+
+            <Label Content="Email"/>
+            <TextBox x:Name="EmailBox"/>
+
+            <Label Content="Дата заезда"/>
+            <DatePicker x:Name="CheckInPicker"/>
+
+            <Label Content="Дата выезда"/>
+            <DatePicker x:Name="CheckOutPicker"/>
+
+            <CheckBox x:Name="PaidCheckBox" Content="Оплачено" Margin="0,10,0,0"/>
+
+            <Button Content="Подтвердить бронирование" Margin="0,20,0,0" Click="ConfirmBooking_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

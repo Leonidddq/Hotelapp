@@ -1,0 +1,40 @@
+﻿<Window x:Class="Hotel1.EditUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование пользователя" Height="650" Width="400">
+    <Grid Margin="10">
+        <StackPanel>
+            <Label Content="Логин"/>
+            <TextBox x:Name="LoginBox"/>
+
+            <Label Content="Пароль"/>
+            <TextBox x:Name="PasswordBox"/>
+
+            <Label Content="Фамилия"/>
+            <TextBox x:Name="SurnameBox"/>
+
+            <Label Content="Имя"/>
+            <TextBox x:Name="NameBox"/>
+
+            <Label Content="Отчество"/>
+            <TextBox x:Name="SnameBox"/>
+
+            <Label Content="Роль (цифра)"/>
+            <TextBox x:Name="RoleBox"/>
+
+            <Label Content="Кол-во вводов"/>
+            <TextBox x:Name="CountBox"/>
+
+            <Label Content="Активен (true/false)"/>
+            <TextBox x:Name="ActiveBox"/>
+
+            <Label Content="Авторизован (true/false)"/>
+            <TextBox x:Name="FirstLoginBox"/>
+
+            <Label Content="Дата входа (ГГГГ-ММ-ДД)"/>
+            <TextBox x:Name="DateBox"/>
+
+            <Button Content="Сохранить" Margin="0,10,0,0" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

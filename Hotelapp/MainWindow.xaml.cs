@@ -1,7 +1,10 @@
-﻿using System;
-using System.Data;
+﻿using Npgsql;
 using System.Windows;
-using Npgsql;
+using System;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Hotel1
 {
@@ -9,13 +12,22 @@ namespace Hotel1
     {
         private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er";
 
+        private int failedAttempts = 0;
+        private bool isBlocked = false;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private async void Button1_Click(object sender, RoutedEventArgs e)
         {
+            if (isBlocked)
+            {
+                MessageBox.Show("Подождите перед следующей попыткой входа.", "Блокировка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             string login = TextBox1.Text;
             string password = TextBox2.Password;
 
@@ -25,7 +37,18 @@ namespace Hotel1
                 return;
             }
 
-            using (var conn = new NpgsqlConnection("Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er"))
+            // если были ошибки -> сначала капча
+            if (failedAttempts >= 1)
+            {
+                CaptchaWindow captchaWindow = new CaptchaWindow();
+                if (captchaWindow.ShowDialog() != true)
+                {
+                    await BlockLoginAsync();
+                    return;
+                }
+            }
+
+            using (var conn = new NpgsqlConnection(connectionString))
             {
                 conn.Open();
 
@@ -50,7 +73,6 @@ namespace Hotel1
 
                         reader.Close();
 
-                        // Блокировка, если пароль не изменен в течение месяца
                         if (isFirstLogin && date.HasValue && (DateTime.Now - date.Value).TotalDays > 30)
                         {
                             using (var blockCmd = new NpgsqlCommand("UPDATE users SET active = false WHERE login = @login", conn))
@@ -78,7 +100,7 @@ namespace Hotel1
                                 return;
                             }
 
-                            // успешный вход — обновим дату, сбросим счётчик
+
                             using (var updateCmd = new NpgsqlCommand("UPDATE users SET date = @date, count = 0 WHERE login = @login", conn))
                             {
                                 updateCmd.Parameters.AddWithValue("date", DateTime.Now);
@@ -88,7 +110,6 @@ namespace Hotel1
 
                             MessageBox.Show("Успешный вход", "ОК", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                            // переход в окно в зависимости от роли
                             if (role == 1)
                             {
                                 new AdminWindow().Show();
@@ -107,7 +128,8 @@ namespace Hotel1
                         else
                         {
                             count++;
-                            string blockMsg;
+                            failedAttempts++;
+
                             if (count > 2)
                             {
                                 using (var block = new NpgsqlCommand("UPDATE users SET count = @count, active = false WHERE login = @login", conn))
@@ -117,7 +139,7 @@ namespace Hotel1
                                     block.ExecuteNonQuery();
                                 }
 
-                                blockMsg = "Аккаунт заблокирован после 3 неверных попыток.";
+                                MessageBox.Show("Аккаунт заблокирован после 3 неверных попыток.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                             else
                             {
@@ -128,14 +150,21 @@ namespace Hotel1
                                     updateCount.ExecuteNonQuery();
                                 }
 
-                                blockMsg = "Неверный пароль. Осталось попыток: " + (3 - count);
+                                MessageBox.Show("Неверный пароль. Осталось попыток: " + (3 - count), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
-
-                            MessageBox.Show(blockMsg, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 }
             }
+        }
+
+        private async Task BlockLoginAsync()
+        {
+            isBlocked = true;
+            Button1.IsEnabled = false;
+            await Task.Delay(10000);
+            Button1.IsEnabled = true;
+            isBlocked = false;
         }
     }
 }

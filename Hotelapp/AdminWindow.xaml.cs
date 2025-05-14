@@ -53,7 +53,7 @@ namespace Hotel1
                     conn.Open();
                     string query = @"INSERT INTO users 
                             (login, password, surname, name, sname, role2, count, active, is_first_login, date) 
-                            VALUES (@login, @password, @surname, @name, @sname, @role2, 0, true, true, CURRENT_DATE)";
+                            VALUES (@login, @password, @surname, @name, @sname, @role2, 0, true, false, CURRENT_DATE)";
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("login", login);
@@ -88,6 +88,44 @@ namespace Hotel1
             {
                 MessageBox.Show("Пожалуйста, выберите пользователя для изменения.");
             }
+
+        }
+        private void buttonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (GridUser.SelectedItem is DataRowView row)
+            {
+                int userId = Convert.ToInt32(row["id_users"]);
+
+                var result = MessageBox.Show("Вы действительно хотите удалить этого пользователя?",
+                                             "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    using (var conn = new NpgsqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM users WHERE id_users = @id";
+                        using (var cmd = new NpgsqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("id", userId);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Пользователь удален.");
+                    LoadUsers(); // Обновляем таблицу
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите пользователя для удаления.");
+            }
+        }
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

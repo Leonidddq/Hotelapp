@@ -43,7 +43,7 @@ namespace Hotel1
             using (var conn = new NpgsqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "UPDATE users SET password = @password, is_first_login = false WHERE login = @login";
+                string query = "UPDATE users SET password = @password, is_first_login = true WHERE login = @login";
                 using (var cmd = new NpgsqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("password", newPass);

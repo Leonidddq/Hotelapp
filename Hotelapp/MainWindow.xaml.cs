@@ -71,7 +71,7 @@ namespace Hotel1
 
                         if (storedPassword == password)
                         {
-                            if (isFirstLogin)
+                            if (!isFirstLogin)
                             {
                                 var cpw = new ChangePasswordWindow(login, password);
                                 cpw.ShowDialog();

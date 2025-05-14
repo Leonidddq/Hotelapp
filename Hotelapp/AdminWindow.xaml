@@ -60,14 +60,21 @@ TextWrapping="Wrap" VerticalAlignment="Top"></TextBox>
             <ComboBoxItem Content="Уборщик" Tag="5"/>
         </ComboBox>
         <Button x:Name="button3" Content="Добавить" HorizontalAlignment="Left" Height="30"
-        Width="90" Margin="550,90,0,0" VerticalAlignment="Top" 
+        Width="90" Margin="550,40,0,0" VerticalAlignment="Top" 
         Click="button3_Click"/>
         <Button x:Name="button4" Content="Изменить данны" HorizontalAlignment="Left"
 Height="30" Width="130" Click="button4_Click"
 Margin="550,140,0,0" VerticalAlignment="Top" >
         </Button>
+        <Button x:Name="buttonDelete" Content="Удалить" HorizontalAlignment="Left"
+        Height="30" Width="90" Margin="550,90,0,0"
+        VerticalAlignment="Top" Click="buttonDelete_Click"/>
+        <Button x:Name="buttonExit" Content="Выход" HorizontalAlignment="Right"
+        Height="30" Width="90" Margin="0,140,10,0" VerticalAlignment="Top"
+        Click="buttonExit_Click"/>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top"
 Margin="5,230,5,5">
+            
             <DataGrid Name ="GridUser" AutoGenerateColumns="False"
 Height="190" MaxWidth="750" ScrollViewer.CanContentScroll="True" >
                 <DataGrid.Columns>

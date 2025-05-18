@@ -41,33 +41,46 @@ namespace Hotel1
             string name = TextBox4.Text;
             string sname = TextBox5.Text;
 
-
-            // Проверка, что выбран элемент
             if (typeRole.SelectedItem is ComboBoxItem selectedItem && selectedItem.Tag != null)
             {
-                // Получение значения из Tag
                 int role = int.Parse(selectedItem.Tag.ToString());
 
                 using (var conn = new NpgsqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = @"INSERT INTO users 
-                            (login, password, surname, name, sname, role2, count, active, is_first_login, date) 
-                            VALUES (@login, @password, @surname, @name, @sname, @role2, 0, true, false, CURRENT_DATE)";
-                    using (var cmd = new NpgsqlCommand(query, conn))
+
+                    // Проверка на существование логина
+                    string checkQuery = "SELECT COUNT(*) FROM users WHERE login = @login";
+                    using (var checkCmd = new NpgsqlCommand(checkQuery, conn))
                     {
-                        cmd.Parameters.AddWithValue("login", login);
-                        cmd.Parameters.AddWithValue("password", password);
-                        cmd.Parameters.AddWithValue("surname", surname);
-                        cmd.Parameters.AddWithValue("name", name);
-                        cmd.Parameters.AddWithValue("sname", sname);
-                        cmd.Parameters.AddWithValue("role2", role); // Роль передается как целое число
-                        cmd.ExecuteNonQuery();
+                        checkCmd.Parameters.AddWithValue("login", login);
+                        int userCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (userCount > 0)
+                        {
+                            MessageBox.Show("Пользователь с таким логином уже существует!");
+                            return; // Прерываем добавление
+                        }
+                    }
+
+                    // Добавление нового пользователя
+                    string insertQuery = @"INSERT INTO users
+                    (login, password, surname, name, sname, role2, count, active, is_first_login, date)
+                    VALUES (@login, @password, @surname, @name, @sname, @role2, 0, true, false, CURRENT_DATE)";
+                    using (var insertCmd = new NpgsqlCommand(insertQuery, conn))
+                    {
+                        insertCmd.Parameters.AddWithValue("login", login);
+                        insertCmd.Parameters.AddWithValue("password", password);
+                        insertCmd.Parameters.AddWithValue("surname", surname);
+                        insertCmd.Parameters.AddWithValue("name", name);
+                        insertCmd.Parameters.AddWithValue("sname", sname);
+                        insertCmd.Parameters.AddWithValue("role2", role);
+                        insertCmd.ExecuteNonQuery();
                     }
                 }
 
                 MessageBox.Show("Пользователь добавлен!");
-                LoadUsers(); // обновляем таблицу
+                LoadUsers();
             }
             else
             {

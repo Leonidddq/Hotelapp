@@ -27,6 +27,10 @@ create table users (
     date date,
     is_first_login bool
 );
+create table car_type (
+    id_type serial primary key,
+    type_category varchar not null 
+);
 create table car (
     id_car serial primary key,
     category int references car_type(id_type),
@@ -36,10 +40,7 @@ create table car (
     status varchar not null
 );
 
-create table car_type (
-    id_type serial primary key,
-    type_category varchar not null 
-);
+
 create table guest (
     id_guest serial primary key,
     name varchar not null,
@@ -64,8 +65,6 @@ create table rental (
     car_id int references car(id_car),
     start_time timestamp not null,
     end_time timestamp,
-    start_location varchar,
-    end_location varchar,
     cost numeric(10, 2)
 );
 
@@ -73,8 +72,7 @@ create table maintenance (
     id_maintenance serial primary key,
     car_id int references car(id_car),
     description text,
-    scheduled_date date,
-    completed boolean default false
+    scheduled_date date
 );
 
 create table payment (
@@ -90,15 +88,15 @@ create table damage_report (
     car_id int references car(id_car),
     user_id int references users(id_users),
     report_date timestamp default current_timestamp,
-    description text,
-    resolved boolean default false
+    description text
+
 );
 
 create table feedback (
     id_feedback serial primary key,
     user_id int references users(id_users),
-    message text,
-    submitted_date timestamp default current_timestamp
+    message text
+
 );
 
 create table location_log (
@@ -113,15 +111,14 @@ create table notifications (
     id_notification serial primary key,
     user_id int references users(id_users),
     message text,
-    created_at timestamp default current_timestamp,
     read boolean default false
 );
 
 create table discount (
     id_discount serial primary key,
     code varchar not null,
-    amount numeric(5,2),
-    valid_until date
+    amount numeric(5,2)
+
 );
 
 create table rental_discount (

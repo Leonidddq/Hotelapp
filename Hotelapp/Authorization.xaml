@@ -10,3 +10,133 @@
         <Button x:Name="Button1" Content="Войти" HorizontalAlignment="Left" Margin="300,250,0,0" VerticalAlignment="Top" Height="45" Width="90" Click="Button1_Click"/>
     </Grid>
 </Window>
+create table role (
+    id_role serial primary key,
+    roles varchar not null
+);
+create table users (
+    id_users serial primary key,
+    name varchar not null,
+    surname varchar not null,
+    sname varchar not null,
+    role2 int references role(id_role),
+    login varchar not null,
+    password varchar not null,
+    count int,
+    active bool,
+    date date,
+    is_first_login bool
+);
+create table car_type (
+    id_type serial primary key,
+    type_category varchar not null 
+);
+create table car (
+    id_car serial primary key,
+    category int references car_type(id_type),
+    brand varchar not null,
+    number varchar not null,
+    mileage varchar not null,
+    status varchar not null
+);
+
+
+create table guest (
+    id_guest serial primary key,
+    name varchar not null,
+    surname varchar not null,
+    secondname varchar not null,
+    passport varchar not null,
+    phone varchar not null,
+    email varchar not null
+);
+create table booking (
+    id_booking serial primary key,
+    guest_id int references guest(id_guest),
+    car_id int references car(id_car),
+    check_in date not null,
+    check_out date not null,
+    paid bool 
+);
+
+create table rental (
+    id_rental serial primary key,
+    user_id int references users(id_users),
+    car_id int references car(id_car),
+    start_time timestamp not null,
+    end_time timestamp,
+    cost numeric(10, 2)
+);
+
+create table maintenance (
+    id_maintenance serial primary key,
+    car_id int references car(id_car),
+    description text,
+    scheduled_date date
+);
+
+create table payment (
+    id_payment serial primary key,
+    rental_id int references rental(id_rental),
+    amount numeric(10,2) not null,
+    payment_date date not null,
+    method varchar
+);
+
+create table damage_report (
+    id_report serial primary key,
+    car_id int references car(id_car),
+    user_id int references users(id_users),
+    report_date timestamp default current_timestamp,
+    description text
+
+);
+
+create table feedback (
+    id_feedback serial primary key,
+    user_id int references users(id_users),
+    message text
+
+);
+
+create table location_log (
+    id_log serial primary key,
+    car_id int references car(id_car),
+    log_time timestamp default current_timestamp,
+    latitude numeric(9,6),
+    longitude numeric(9,6)
+);
+
+create table notifications (
+    id_notification serial primary key,
+    user_id int references users(id_users),
+    message text,
+    read boolean default false
+);
+
+create table discount (
+    id_discount serial primary key,
+    code varchar not null,
+    amount numeric(5,2)
+
+);
+
+create table rental_discount (
+    id serial primary key,
+    rental_id int references rental(id_rental),
+    discount_id int references discount(id_discount)
+);
+
+create table loyalty_program (
+    id_loyalty serial primary key,
+    user_id int references users(id_users),
+    points int default 0,
+    tier varchar
+);
+
+create table user_activity (
+    id_activity serial primary key,
+    user_id int references users(id_users),
+    action text,
+    action_time timestamp default current_timestamp
+);

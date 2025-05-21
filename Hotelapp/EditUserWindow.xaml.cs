@@ -3,7 +3,7 @@ using System.Data;
 using System.Windows;
 using Npgsql;
 
-namespace Hotel1
+namespace Carsharing
 {
     public partial class EditUserWindow : Window
     {

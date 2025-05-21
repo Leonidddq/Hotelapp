@@ -6,16 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Hotel1
+namespace Carsharing
 {
-    public partial class MainWindow : Window
+    public partial class Authorization : Window
     {
         private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er";
 
         private int failedAttempts = 0;
         private bool isBlocked = false;
 
-        public MainWindow()
+        public Authorization()
         {
             InitializeComponent();
         }
@@ -37,7 +37,7 @@ namespace Hotel1
                 return;
             }
 
-            // если были ошибки -> сначала капча
+            
             if (failedAttempts >= 1)
             {
                 CaptchaWindow captchaWindow = new CaptchaWindow();

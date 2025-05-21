@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Hotel1
+namespace Carsharing
 {
     public partial class CaptchaWindow : Window
     {

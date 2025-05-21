@@ -4,7 +4,7 @@ using System.Windows;
 using Npgsql;
 using System.Windows.Controls;
 
-namespace Hotel1
+namespace Carsharing
 {
     public partial class AdminWindow : Window
     {
@@ -136,7 +136,7 @@ namespace Hotel1
         }
         private void buttonExit_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            Authorization mainWindow = new Authorization();
             mainWindow.Show();
             this.Close();
         }

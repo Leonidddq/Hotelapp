@@ -1,4 +1,4 @@
-﻿<Window x:Class="Hotel1.BookingWindow"
+﻿<Window x:Class="Carsharing.BookingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Бронирование номера" Height="500" Width="400">
@@ -11,7 +11,7 @@
             <TextBox x:Name="SurnameBox"/>
 
             <Label Content="Отчество"/>
-            <TextBox x:Name="SnameBox"/>
+            <TextBox x:Name="SecondnameBox"/>
 
             <Label Content="Паспорт"/>
             <TextBox x:Name="PassportBox"/>

@@ -3,7 +3,7 @@ using System.Data;
 using System.Windows;
 using Npgsql;
 
-namespace Hotel1
+namespace Carsharing
 {
     public partial class ClientWindow : Window
     {
@@ -19,7 +19,7 @@ namespace Hotel1
         {
             using var conn = new NpgsqlConnection(connectionString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("SELECT * FROM room", conn);
+            using var cmd = new NpgsqlCommand("SELECT * FROM car", conn);
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
             RoomDataGrid.ItemsSource = dt.DefaultView;
@@ -29,17 +29,17 @@ namespace Hotel1
         {
             if (RoomDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Выберите номер.");
+                MessageBox.Show("Выберите машину.");
                 return;
             }
 
             DataRowView selectedRow = (DataRowView)RoomDataGrid.SelectedItem;
             string status = selectedRow["status"].ToString();
-            int roomId = Convert.ToInt32(selectedRow["id_room"]);
+            int roomId = Convert.ToInt32(selectedRow["id_car"]);
 
-            if (status != "Чистый")
+            if (status != "Свободен")
             {
-                MessageBox.Show("Данный номер занят.");
+                MessageBox.Show("Данная машина занята.");
                 return;
             }
 

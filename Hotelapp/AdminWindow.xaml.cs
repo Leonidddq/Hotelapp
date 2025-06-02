@@ -8,7 +8,7 @@ namespace Carsharing
 {
     public partial class AdminWindow : Window
     {
-        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er";
+        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=carsharing";
 
         public AdminWindow()
         {

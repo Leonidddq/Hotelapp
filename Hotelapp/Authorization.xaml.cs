@@ -10,7 +10,7 @@ namespace Carsharing
 {
     public partial class Authorization : Window
     {
-        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er";
+        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=carsharing";
 
         private int failedAttempts = 0;
         private bool isBlocked = false;
@@ -114,7 +114,7 @@ namespace Carsharing
                             {
                                 new AdminWindow().Show();
                             }
-                            else if (role == 4)
+                            else if (role == 2)
                             {
                                 new ClientWindow().Show();
                             }

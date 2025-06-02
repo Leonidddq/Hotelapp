@@ -7,11 +7,9 @@
         <Button Content="Забронировать" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,58,0,0" Click="BookRoom_Click"/>
         <DataGrid x:Name="RoomDataGrid" AutoGenerateColumns="False" IsReadOnly="True" Height="250" Width="700" RenderTransformOrigin="0.496,0.802" Margin="-10,114,-10,0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding id_car}" Width="*"/>
-                <DataGridTextColumn Header="Категория" Binding="{Binding category}" Width="*"/>
-                <DataGridTextColumn Header="Марка" Binding="{Binding brand}" Width="*"/>
-                <DataGridTextColumn Header="Пробег" Binding="{Binding mileage}" Width="*"/>
-                <DataGridTextColumn Header="Статус" Binding="{Binding status}" Width="*"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding id_service}" Width="*"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding type_service}" Width="*"/>
+                <DataGridTextColumn Header="Марка" Binding="{Binding status}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -7,7 +7,7 @@ namespace Carsharing
     {
         private string login;
         private string currentPassword;
-        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=er";
+        private string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=kuropatka;Database=carsharing";
 
         public ChangePasswordWindow(string login, string currentPassword)
         {

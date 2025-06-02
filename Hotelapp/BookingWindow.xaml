@@ -19,14 +19,13 @@
             <Label Content="Телефон"/>
             <TextBox x:Name="PhoneBox"/>
 
-            <Label Content="Email"/>
-            <TextBox x:Name="EmailBox"/>
+            <Label Content="Адрес"/>
+            <TextBox x:Name="AddresslBox"/>
 
-            <Label Content="Дата заезда"/>
+            <Label Content="Дата приезда"/>
             <DatePicker x:Name="CheckInPicker"/>
 
-            <Label Content="Дата выезда"/>
-            <DatePicker x:Name="CheckOutPicker"/>
+           
 
             <CheckBox x:Name="PaidCheckBox" Content="Оплачено" Margin="0,10,0,0"/>
 
